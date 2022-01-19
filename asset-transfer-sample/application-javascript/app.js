@@ -6,7 +6,6 @@
 
 'use strict';
 
-const { uuid } = require('uuidv4');
 const { Gateway, Wallets } = require('fabric-network');
 const FabricCAServices = require('fabric-ca-client');
 const path = require('path');
@@ -27,7 +26,7 @@ function prettyJSONString(inputString) {
 // - fabric-sample two organization test-network setup with two peers, ordering service,
 //   and 2 certificate authorities
 //         ===> from directory /fabric-samples/test-network
-//         ./network.sh up createChannel -ca -s couchdb
+//         ./network.sh up createChannel -ca
 // - Use any of the asset-transfer-basic chaincodes deployed on the channel "mychannel"
 //   with the chaincode name of "basic". The following deploy command will package,
 //   install, approve, and commit the javascript chaincode, all the actions it takes
@@ -109,7 +108,7 @@ async function main() {
 			const network = await gateway.getNetwork(channelName);
 
 			// Get the contract from the network.
-			const contract = network.getContract(chaincodeName, 'AssetTransfer');
+			const contract = network.getContract(chaincodeName);
 
 			// Initialize a set of asset data on the channel using the chaincode 'InitLedger' function.
 			// This type of transaction would only be run once by an application the first time it was started after it
@@ -129,15 +128,14 @@ async function main() {
 			// This will be sent to both peers and if both peers endorse the transaction, the endorsed proposal will be sent
 			// to the orderer to be committed by each of the peer's to the channel ledger.
 			console.log('\n--> Submit Transaction: CreateAsset, creates new asset with ID, color, owner, size, and appraisedValue arguments');
-			let id = uuid();
-			result = await contract.submitTransaction('CreateAsset', id, 'yellow', '5', 'Tom', '1300');
+			result = await contract.submitTransaction('CreateAsset', 'asset13', 'yellow', '5', 'Tom', '1300');
 			console.log('*** Result: committed');
 			if (`${result}` !== '') {
 				console.log(`*** Result: ${prettyJSONString(result.toString())}`);
 			}
 
 			console.log('\n--> Evaluate Transaction: ReadAsset, function returns an asset with a given assetID');
-			result = await contract.evaluateTransaction('ReadAsset', id);
+			result = await contract.evaluateTransaction('ReadAsset', 'asset13');
 			console.log(`*** Result: ${prettyJSONString(result.toString())}`);
 
 			console.log('\n--> Evaluate Transaction: AssetExists, function returns "true" if an asset with given assetID exist');
