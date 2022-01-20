@@ -26,6 +26,9 @@ pushd ../../test-network
 ./network.sh deployCC -ccn konsumen -ccp ../asset-transfer-basic/chaincode-konsumen -ccl javascript
 ./network.sh deployCC -ccn kud -ccp ../asset-transfer-basic/chaincode-kud -ccl javascript
 ./network.sh deployCC -ccn petani -ccp ../asset-transfer-basic/chaincode-petani -ccl javascript
+./network.sh deployCC -ccn hasil_panen -ccp ../asset-transfer-basic/chaincode-hasil_panen -ccl javascript
+./network.sh deployCC -ccn log_activity -ccp ../asset-transfer-basic/chaincode-log_activity -ccl javascript
+./network.sh deployCC -ccn transaksi_pembelian -ccp ../asset-transfer-basic/chaincode-transaksi_pembelian -ccl javascript
 popd
 
 pushd ../hyperledger-explorer
